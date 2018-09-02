@@ -26,8 +26,6 @@
 
 ### 1. 基本用法
 
-
-
 ```xml
 <com.gcssloop.widget.ArcSeekBar
     android:id="@+id/arc_seek_bar"
@@ -64,9 +62,55 @@
 
 ### 3. 属性简介
 
-#### 3.1 圆弧相关属性
+#### 3.1 基本绘制属性
 
+![](pics/arc_attrs_1.jpg)
 
+进度条宽度(arc_width)、开口角度(arc_open_angle)、旋转角度(arc_rotate_angle) 的基本含义如上图所示。
+
+**进度条宽度(arc_width)：** 进度条宽度就是上图白色部分所示的内容，就是控制绘制的宽窄的。  
+**开口角度(arc_open_angle)： ** 开口角度就是上图中下放没有进度显示的部分，如果开口角度为 0 则绘制出来是一个圆。如果开口角度为 180 度，则为一个半圆。  
+**旋转角度：**  旋转角度就是，没有绘制部分的最终指向，默认为 90 度，就是上图那样。  
+
+#### 3.2 渐变色
+
+渐变色就如上图所展示的那样，允许指定大于等于两种以上的颜色进行渲染，基本使用如下.
+
+**1. 在 /res/values 里面定义一个 array 数组，其条目为一系列颜色(颜色数量大于等于2)。**
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arc_colors_default">
+        <item>#1a2a6c</item>
+        <item>#b21f1f</item>
+        <item>#fdbb2d</item>
+    </array>
+</resources>
+```
+
+**2. 引用指定颜色**
+
+```xml
+<com.gcssloop.widget.ArcSeekBar
+    android:layout_width="280dp"
+    android:layout_height="280dp"
+    app:arc_colors="@array/arc_colors_default"/>
+```
+
+> **注意： 所指定的颜色数组数量必须大于 2，如果想要使用纯色，则直接将两个array条目设置为同一种颜色即可。**
+
+#### 3.3 进度属性
+
+进度属性有两个，和 SeekBar 功能一致， `arc_max` 指定最大数值， `arc_progress` 指定默认的进度。
+
+#### 3.4 拖动按钮属性
+
+拖动按钮即上方演示图中的圆环，
+**arc_thumb_width：**指定圆环宽度。  
+**arc_thumb_color：** 指定按钮颜色。  
+**arc_thumb_radius：** 指定按钮半径。  
+**arc_thumb_mode：** 指定按钮绘制模式，默认为 STROKE(描边)，可以指定 FILL、STROKE、FILL_STROKE。
 
 ### 4.添加方法
 
@@ -104,8 +148,7 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.0.0'
 
 #### v1.0.0
 
-允许对每一个角分别设置半径。  
-支持padding。
+完成基本的 ArcSeekBar 功能与相关的自定义属性。
 
 ## 版权信息
 
