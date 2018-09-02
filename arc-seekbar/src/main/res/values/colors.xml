@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arc_colors_default">
+        <item>#1a2a6c</item>
+        <item>#b21f1f</item>
+        <item>#fdbb2d</item>
+    </array>
+</resources>
