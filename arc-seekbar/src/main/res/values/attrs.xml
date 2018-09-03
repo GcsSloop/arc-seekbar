@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ArcSeekBar">
-        <attr name="arc_width" format="integer|dimension" />
+        <attr name="arc_width" format="dimension|reference" />
         <attr name="arc_open_angle" format="float" />
         <attr name="arc_rotate_angle" format="float" />
         <attr name="arc_colors" format="reference" />
+        <attr name="arc_border_width" format="dimension|reference" />
+        <attr name="arc_border_color" format="color|reference" />
         <attr name="arc_max" format="integer|reference" />
         <attr name="arc_progress" format="integer|reference" />
-        <attr name="arc_thumb_width" format="integer|dimension" />
+        <attr name="arc_thumb_width" format="dimension|reference" />
         <attr name="arc_thumb_color" format="color|reference" />
         <attr name="arc_thumb_radius" format="integer|dimension" />
         <attr name="arc_thumb_mode" format="integer|dimension">

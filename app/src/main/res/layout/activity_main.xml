@@ -31,24 +31,33 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <com.gcssloop.widget.ArcSeekBar
-        android:id="@+id/arc_seek_bar"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        app:arc_colors="@array/arc_colors_default"
-        app:arc_max="100"
-        app:arc_open_angle="90"
-        app:arc_progress="0"
-        app:arc_rotate_angle="90"
-        app:arc_thumb_color="#fff"
-        app:arc_thumb_mode="STROKE"
-        app:arc_thumb_radius="16dp"
-        app:arc_thumb_width="3dp"
-        app:arc_width="40dp"
+    <FrameLayout
+        android:id="@+id/arc_seek_bar_wrap"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.gcssloop.widget.ArcSeekBar
+            android:id="@+id/arc_seek_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:arc_border_color="#fff"
+            app:arc_border_width="3dp"
+            app:arc_colors="@array/arc_colors_default"
+            app:arc_max="100"
+            app:arc_open_angle="90"
+            app:arc_progress="0"
+            app:arc_rotate_angle="90"
+            app:arc_thumb_color="#fff"
+            app:arc_thumb_mode="STROKE"
+            app:arc_thumb_radius="16dp"
+            app:arc_thumb_width="3dp"
+            app:arc_width="40dp" />
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/txt_progress"
@@ -59,10 +68,10 @@
         android:textColor="#fff"
         android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/arc_seek_bar"
-        app:layout_constraintLeft_toLeftOf="@id/arc_seek_bar"
-        app:layout_constraintRight_toRightOf="@id/arc_seek_bar"
-        app:layout_constraintTop_toTopOf="@id/arc_seek_bar" />
+        app:layout_constraintBottom_toBottomOf="@id/arc_seek_bar_wrap"
+        app:layout_constraintLeft_toLeftOf="@id/arc_seek_bar_wrap"
+        app:layout_constraintRight_toRightOf="@id/arc_seek_bar_wrap"
+        app:layout_constraintTop_toTopOf="@id/arc_seek_bar_wrap" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -53,6 +53,8 @@ public class ArcSeekBar extends View {
     private static final int DEFAULT_ARC_WIDTH = 40;                // 默认宽度 dp
     private static final float DEFAULT_OPEN_ANGLE = 120;            // 开口角度
     private static final float DEFAULT_ROTATE_ANGLE = 90;           // 旋转角度
+    private static final int DEFAULT_BORDER_WIDTH = 0;              // 默认描边宽度
+    private static final int DEFAULT_BORDER_COLOR = 0xffffffff;     // 默认描边颜色
 
     private static final int DEFAULT_THUMB_COLOR = 0xffffffff;      // 拖动按钮颜色
     private static final int DEFAULT_THUMB_WIDTH = 2;               // 拖动按钮描边宽度 dp
@@ -71,6 +73,8 @@ public class ArcSeekBar extends View {
     private float mArcWidth;        // Seek 宽度
     private float mOpenAngle;       // 开口的角度大小 0 - 360
     private float mRotateAngle;     // 旋转角度
+    private int mBorderWidth;       // 描边宽度
+    private int mBorderColor;       // 描边颜色
 
     private int mThumbColor;        // 拖动按钮颜色
     private float mThumbWidth;      // 拖动按钮宽度
@@ -86,8 +90,10 @@ public class ArcSeekBar extends View {
     private float mThumbY;         // 圆弧 SeekBar 中心点
 
     private Path mSeekPath;
+    private Path mBorderPath;
     private Paint mArcPaint;
     private Paint mThumbPaint;
+    private Paint mBorderPaint;
 
     private float[] mTempPos;
     private float[] mTempTan;
@@ -99,6 +105,7 @@ public class ArcSeekBar extends View {
     private GestureDetector mDetector;
     private Matrix mInvertMatrix;               // 逆向 Matrix, 用于计算触摸坐标和绘制坐标的转换
     private Region mArcRegion;                  // ArcPath的实际区域大小,用于判定单击事件
+
 
     public ArcSeekBar(Context context) {
         this(context, null);
@@ -127,6 +134,8 @@ public class ArcSeekBar extends View {
         mMaxValue = ta.getInt(R.styleable.ArcSeekBar_arc_max, DEFAULT_MAX_VALUE);
         int progress = ta.getInt(R.styleable.ArcSeekBar_arc_progress, 0);
         setProgress(progress);
+        mBorderWidth = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_border_width, dp2px(DEFAULT_BORDER_WIDTH));
+        mBorderColor = ta.getColor(R.styleable.ArcSeekBar_arc_border_color, DEFAULT_BORDER_COLOR);
 
         mThumbColor = ta.getColor(R.styleable.ArcSeekBar_arc_thumb_color, DEFAULT_THUMB_COLOR);
         mThumbRadius = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_thumb_radius, dp2px(DEFAULT_THUMB_RADIUS));
@@ -153,6 +162,7 @@ public class ArcSeekBar extends View {
     // 初始化数据
     private void initData() {
         mSeekPath = new Path();
+        mBorderPath = new Path();
         mSeekPathMeasure = new PathMeasure();
         mTempPos = new float[2];
         mTempTan = new float[2];
@@ -166,6 +176,7 @@ public class ArcSeekBar extends View {
     private void initPaint() {
         initArcPaint();
         initThumbPaint();
+        initBorderPaint();
     }
 
     // 初始化圆弧画笔
@@ -192,6 +203,15 @@ public class ArcSeekBar extends View {
             mThumbPaint.setStyle(Paint.Style.STROKE);
         }
         mThumbPaint.setTextSize(56);
+    }
+
+    // 初始化拖动按钮画笔
+    private void initBorderPaint() {
+        mBorderPaint = new Paint();
+        mBorderPaint.setAntiAlias(true);
+        mBorderPaint.setColor(mBorderColor);
+        mBorderPaint.setStrokeWidth(mBorderWidth);
+        mBorderPaint.setStyle(Paint.Style.STROKE);
     }
 
     //--- 初始化结束 -------------------------------------------------------------------------------
@@ -225,13 +245,19 @@ public class ArcSeekBar extends View {
         int hs = MeasureSpec.getSize(heightMeasureSpec);    //取出高度的确切数值
         int hm = MeasureSpec.getMode(heightMeasureSpec);    //取出高度的测量模
 
-        if (wm == MeasureSpec.UNSPECIFIED || wm == MeasureSpec.AT_MOST) {
+        if (wm == MeasureSpec.UNSPECIFIED) {
             wm = MeasureSpec.EXACTLY;
             ws = dp2px(DEFAULT_EDGE_LENGTH);
+        } else if (wm == MeasureSpec.AT_MOST) {
+            wm = MeasureSpec.EXACTLY;
+            ws = Math.min(dp2px(DEFAULT_EDGE_LENGTH), ws);
         }
-        if (hm == MeasureSpec.UNSPECIFIED || hm == MeasureSpec.AT_MOST) {
+        if (hm == MeasureSpec.UNSPECIFIED) {
             hm = MeasureSpec.EXACTLY;
             hs = dp2px(DEFAULT_EDGE_LENGTH);
+        } else if (hm == MeasureSpec.AT_MOST) {
+            hm = MeasureSpec.EXACTLY;
+            hs = Math.min(dp2px(DEFAULT_EDGE_LENGTH), hs);
         }
         setMeasuredDimension(MeasureSpec.makeMeasureSpec(ws, wm), MeasureSpec.makeMeasureSpec(hs, hm));
     }
@@ -243,7 +269,7 @@ public class ArcSeekBar extends View {
         int safeW = w - getPaddingLeft() - getPaddingRight();
         int safeH = h - getPaddingTop() - getPaddingBottom();
         float edgeLength, startX, startY;
-        float fix = mArcWidth / 2;  // 修正距离,画笔宽度的修正
+        float fix = mArcWidth / 2 + mBorderWidth;  // 修正距离,画笔宽度的修正
         if (safeW < safeH) {
             // 宽度小于高度,以宽度为准
             edgeLength = safeW - fix;
@@ -282,9 +308,9 @@ public class ArcSeekBar extends View {
         mInvertMatrix.reset();
         mInvertMatrix.preRotate(-mRotateAngle, mCenterX, mCenterY);
 
-        Path arcPath = new Path();
-        mArcPaint.getFillPath(mSeekPath, arcPath);
-        mArcRegion.setPath(arcPath, new Region(0, 0, w, h));
+        mArcPaint.getFillPath(mSeekPath, mBorderPath);
+        mBorderPath.close();
+        mArcRegion.setPath(mBorderPath, new Region(0, 0, w, h));
     }
 
     // 具体绘制
@@ -293,6 +319,9 @@ public class ArcSeekBar extends View {
         canvas.save();
         canvas.rotate(mRotateAngle, mCenterX, mCenterY);
         canvas.drawPath(mSeekPath, mArcPaint);
+        if (mBorderWidth > 0) {
+            canvas.drawPath(mBorderPath, mBorderPaint);
+        }
         canvas.drawCircle(mThumbX, mThumbY, mThumbRadius, mThumbPaint);
         canvas.restore();
     }
