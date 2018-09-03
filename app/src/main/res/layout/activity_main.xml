@@ -33,8 +33,8 @@
 
     <FrameLayout
         android:id="@+id/arc_seek_bar_wrap"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -42,8 +42,8 @@
 
         <com.gcssloop.widget.ArcSeekBar
             android:id="@+id/arc_seek_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
             app:arc_border_color="#fff"
             app:arc_border_width="3dp"
             app:arc_colors="@array/arc_colors_default"

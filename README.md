@@ -59,6 +59,8 @@
 | arc_thumb_color  | 拖动按钮颜色                            | 否           | color |
 | arc_thumb_radius | 拖动按钮半径                            | 否           | dp    |
 | arc_thumb_mode   | 拖动按钮模式(FILL、STROKE、FILL_STROKE) | 否           | emnu  |
+| arc_border_width | 描边宽度，默认为 0，即不显示。          | 否           | dp    |
+| arc_border_color | 描边颜色，默认为白色。                  | 否           | color |
 
 ### 3. 属性简介
 
@@ -112,6 +114,14 @@
 **arc_thumb_radius：** 指定按钮半径。  
 **arc_thumb_mode：** 指定按钮绘制模式，默认为 STROKE(描边)，可以指定 FILL、STROKE、FILL_STROKE。
 
+#### 3.5 描边
+
+v1.1.0 以上版本支持。
+
+可以实现描边效果，具体看图。
+
+![](pics/arc_border.jpg)
+
 ### 4.添加方法
 
 #### 4.1 添加仓库
@@ -146,9 +156,14 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.0.0'
 
 ## 更新日志
 
+#### v1.1.0
+
+1. 完善 onMeasure。
+2. 添加描边(border)属性。
+
 #### v1.0.0
 
-完成基本的 ArcSeekBar 功能与相关的自定义属性。
+1. 完成基本的 ArcSeekBar 功能与相关的自定义属性。
 
 ## 版权信息
 
