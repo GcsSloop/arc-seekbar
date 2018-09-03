@@ -143,7 +143,7 @@ allprojects {
 在需要添加依赖的 Module 下添加以下信息，使用方式和普通的远程仓库一样。
 
 ```groovy
-implementation 'com.gcssloop.widget:arc-seekbar:1.0.0'
+implementation 'com.gcssloop.widget:arc-seekbar:1.1.0'
 ```
 
 ## 作者简介
@@ -167,7 +167,7 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.0.0'
 
 ## 版权信息
 
-```
+```xml
 Copyright (c) 2018 GcsSloop
 
 Licensed under the Apache License, Version 2.0 (the "License");
