@@ -117,6 +117,7 @@ public class ArcSeekBar extends View {
 
     public ArcSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setSaveEnabled(true);
         initAttrs(context, attrs);
         initData();
         initPaint();
@@ -230,8 +231,11 @@ public class ArcSeekBar extends View {
     protected void onRestoreInstanceState(Parcelable state) {
         if (state instanceof Bundle) {
             Bundle bundle = (Bundle) state;
-            this.mProgressPresent = bundle.getInt(KEY_PROGRESS_PRESENT);
+            this.mProgressPresent = bundle.getFloat(KEY_PROGRESS_PRESENT);
             state = bundle.getParcelable("superState");
+        }
+        if (null != mOnProgressChangeListener) {
+            mOnProgressChangeListener.onProgressChanged(this, getProgress(), false);
         }
         super.onRestoreInstanceState(state);
     }
