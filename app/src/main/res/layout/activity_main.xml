@@ -51,7 +51,7 @@
             app:arc_open_angle="90"
             app:arc_progress="0"
             app:arc_rotate_angle="90"
-            app:arc_shadow_radius="2dp"
+            app:arc_shadow_radius="5dp"
             app:arc_thumb_color="#fff"
             app:arc_thumb_mode="STROKE"
             app:arc_thumb_radius="16dp"

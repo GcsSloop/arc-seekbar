@@ -47,20 +47,21 @@
 
 可以在布局文件中配置的基本属性如下：
 
-| 属性名称         | 摘要                                    | 是否必须设置 | 类型  |
-| ---------------- | --------------------------------------- | ------------ | ----- |
-| arc_width        | 圆弧的宽度                              | 否           | dp    |
-| arc_open_angle   | 圆弧开口的角度                          | 否           | int   |
-| arc_rotate_angle | 旋转角度，默认90                        | 否           | int   |
-| arc_colors       | 圆弧渐变色                              | 否           | array |
-| arc_max          | 进度最大数值                            | 否           | int   |
-| arc_progress     | 默认进度                                | 否           | int   |
-| arc_thumb_width  | 拖动按钮描边宽度                        | 否           | dp    |
-| arc_thumb_color  | 拖动按钮颜色                            | 否           | color |
-| arc_thumb_radius | 拖动按钮半径                            | 否           | dp    |
-| arc_thumb_mode   | 拖动按钮模式(FILL、STROKE、FILL_STROKE) | 否           | emnu  |
-| arc_border_width | 描边宽度，默认为 0，即不显示。          | 否           | dp    |
-| arc_border_color | 描边颜色，默认为白色。                  | 否           | color |
+| 属性名称          | 摘要                                    | 是否必须设置 | 类型  |
+| ----------------- | --------------------------------------- | ------------ | ----- |
+| arc_width         | 圆弧的宽度                              | 否           | dp    |
+| arc_open_angle    | 圆弧开口的角度                          | 否           | int   |
+| arc_rotate_angle  | 旋转角度，默认90                        | 否           | int   |
+| arc_colors        | 圆弧渐变色                              | 否           | array |
+| arc_max           | 进度最大数值                            | 否           | int   |
+| arc_progress      | 默认进度                                | 否           | int   |
+| arc_thumb_width   | 拖动按钮描边宽度                        | 否           | dp    |
+| arc_thumb_color   | 拖动按钮颜色                            | 否           | color |
+| arc_thumb_radius  | 拖动按钮半径                            | 否           | dp    |
+| arc_thumb_mode    | 拖动按钮模式(FILL、STROKE、FILL_STROKE) | 否           | emnu  |
+| arc_border_width  | 描边宽度，默认为 0，即不显示。          | 否           | dp    |
+| arc_border_color  | 描边颜色，默认为白色。                  | 否           | color |
+| arc_shadow_radius | 阴影(外发光)半径，默认为0，即不显示。   | 否           | dp    |
 
 ### 3. 属性简介
 
@@ -122,6 +123,14 @@ v1.1.0 以上版本支持。
 
 ![](pics/arc_border.jpg)
 
+#### 3.6 阴影(外发光)效果
+
+支持外发光渐变效果，通过 arc_shadow_radius 设置阴影半径，阴影半径大于 0 即可显示，默认为 0 不显示，显示效果如下图：
+
+![](pics/arcseekbar-shadow.gif)
+
+
+
 ### 4.添加方法
 
 #### 4.1 添加仓库
@@ -143,7 +152,7 @@ allprojects {
 在需要添加依赖的 Module 下添加以下信息，使用方式和普通的远程仓库一样。
 
 ```groovy
-implementation 'com.gcssloop.widget:arc-seekbar:1.2.0'
+implementation 'com.gcssloop.widget:arc-seekbar:1.3.0'
 ```
 
 ## 作者简介
@@ -155,6 +164,10 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.2.0'
 <a href="http://www.gcssloop.com/info/about/" target="_blank"> <img src="http://ww4.sinaimg.cn/large/005Xtdi2gw1f1qn89ihu3j315o0dwwjc.jpg" width="300"/> </a>
 
 ## 更新日志
+
+#### v1.3.0
+
+1. 添加阴影(外发光)效果。
 
 #### v1.2.0
 

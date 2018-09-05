@@ -61,7 +61,7 @@ public class ArcSeekBar extends View {
     private static final int DEFAULT_THUMB_WIDTH = 2;               // 拖动按钮描边宽度 dp
     private static final int DEFAULT_THUMB_RADIUS = 15;             // 拖动按钮半径 dp
 
-    private static final int DEFAULT_SHADOW_RADIUS = 3;             // 默认阴影半径 dp
+    private static final int DEFAULT_SHADOW_RADIUS = 0;             // 默认阴影半径 dp
 
     private static final int THUMB_MODE_STROKE = 0;                 // 拖动按钮模式 - 描边
     private static final int THUMB_MODE_FILL = 1;                   // 拖动按钮模式 - 填充
