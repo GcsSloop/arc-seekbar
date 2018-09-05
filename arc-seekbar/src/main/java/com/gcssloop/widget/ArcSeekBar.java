@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -60,6 +61,8 @@ public class ArcSeekBar extends View {
     private static final int DEFAULT_THUMB_WIDTH = 2;               // 拖动按钮描边宽度 dp
     private static final int DEFAULT_THUMB_RADIUS = 15;             // 拖动按钮半径 dp
 
+    private static final int DEFAULT_SHADOW_RADIUS = 3;             // 默认阴影半径 dp
+
     private static final int THUMB_MODE_STROKE = 0;                 // 拖动按钮模式 - 描边
     private static final int THUMB_MODE_FILL = 1;                   // 拖动按钮模式 - 填充
     private static final int THUMB_MODE_FILL_STROKE = 2;            // 拖动按钮模式 - 填充+描边
@@ -81,19 +84,22 @@ public class ArcSeekBar extends View {
     private float mThumbRadius;     // 拖动按钮半径
     private int mThumbMode;         // 拖动按钮模式
 
+    private int mShadowRadius;      // 阴影半径
+
     private int mMaxValue;          // 最大数值
 
     private float mCenterX;         // 圆弧 SeekBar 中心点 X
-    private float mCenterY;         // 圆弧 SeekBar 中心点
+    private float mCenterY;         // 圆弧 SeekBar 中心点 Y
 
-    private float mThumbX;         // 圆弧 SeekBar 中心点 X
-    private float mThumbY;         // 圆弧 SeekBar 中心点
+    private float mThumbX;         // 拖动按钮 中心点 X
+    private float mThumbY;         // 拖动按钮 中心点 Y
 
     private Path mSeekPath;
     private Path mBorderPath;
     private Paint mArcPaint;
     private Paint mThumbPaint;
     private Paint mBorderPaint;
+    private Paint mShadowPaint;
 
     private float[] mTempPos;
     private float[] mTempTan;
@@ -118,6 +124,7 @@ public class ArcSeekBar extends View {
     public ArcSeekBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setSaveEnabled(true);
+        setLayerType(LAYER_TYPE_SOFTWARE, null);
         initAttrs(context, attrs);
         initData();
         initPaint();
@@ -142,6 +149,8 @@ public class ArcSeekBar extends View {
         mThumbRadius = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_thumb_radius, dp2px(DEFAULT_THUMB_RADIUS));
         mThumbWidth = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_thumb_width, dp2px(DEFAULT_THUMB_WIDTH));
         mThumbMode = ta.getInt(R.styleable.ArcSeekBar_arc_thumb_mode, THUMB_MODE_STROKE);
+
+        mShadowRadius = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_shadow_radius, dp2px(DEFAULT_SHADOW_RADIUS));
         ta.recycle();
     }
 
@@ -178,6 +187,7 @@ public class ArcSeekBar extends View {
         initArcPaint();
         initThumbPaint();
         initBorderPaint();
+        initShadowPaint();
     }
 
     // 初始化圆弧画笔
@@ -213,6 +223,14 @@ public class ArcSeekBar extends View {
         mBorderPaint.setColor(mBorderColor);
         mBorderPaint.setStrokeWidth(mBorderWidth);
         mBorderPaint.setStyle(Paint.Style.STROKE);
+    }
+
+    // 初始化阴影画笔
+    private void initShadowPaint() {
+        mShadowPaint = new Paint();
+        mShadowPaint.setAntiAlias(true);
+        mShadowPaint.setStrokeWidth(mBorderWidth);
+        mShadowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
     //--- 初始化结束 -------------------------------------------------------------------------------
@@ -273,7 +291,7 @@ public class ArcSeekBar extends View {
         int safeW = w - getPaddingLeft() - getPaddingRight();
         int safeH = h - getPaddingTop() - getPaddingBottom();
         float edgeLength, startX, startY;
-        float fix = mArcWidth / 2 + mBorderWidth;  // 修正距离,画笔宽度的修正
+        float fix = mArcWidth / 2 + mBorderWidth + mShadowRadius * 2;  // 修正距离,画笔宽度的修正
         if (safeW < safeH) {
             // 宽度小于高度,以宽度为准
             edgeLength = safeW - fix;
@@ -322,6 +340,8 @@ public class ArcSeekBar extends View {
     protected void onDraw(Canvas canvas) {
         canvas.save();
         canvas.rotate(mRotateAngle, mCenterX, mCenterY);
+        mShadowPaint.setShadowLayer(mShadowRadius * 2, 0, 0, getColor());
+        canvas.drawPath(mBorderPath, mShadowPaint);
         canvas.drawPath(mSeekPath, mArcPaint);
         if (mBorderWidth > 0) {
             canvas.drawPath(mBorderPath, mBorderPaint);
@@ -462,6 +482,79 @@ public class ArcSeekBar extends View {
         mThumbX = mTempPos[0];
         mThumbY = mTempPos[1];
     }
+
+    //--- 线性取色 ---------------------------------------------------------------------------------
+
+    /**
+     * 获取当前进度的具体颜色
+     *
+     * @return 当前进度在渐变中的颜色
+     */
+    public int getColor() {
+        return getColor(mProgressPresent);
+    }
+
+    /**
+     * 获取某个百分比位置的颜色
+     *
+     * @param radio 取值[0,1]
+     * @return 最终颜色
+     */
+    private int getColor(float radio) {
+        float diatance = 1.0f / (mArcColors.length - 1);
+        int startColor;
+        int endColor;
+        if (radio >= 1) {
+            return mArcColors[mArcColors.length - 1];
+        }
+        for (int i = 0; i < mArcColors.length; i++) {
+            if (radio <= i * diatance) {
+                if (i == 0) {
+                    return mArcColors[0];
+                }
+                startColor = mArcColors[i - 1];
+                endColor = mArcColors[i];
+                float areaRadio = getAreaRadio(radio, diatance * (i - 1), diatance * i);
+                return getColorFrom(startColor, endColor, areaRadio);
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 计算当前比例在子区间的比例
+     *
+     * @param radio         总比例
+     * @param startPosition 子区间开始位置
+     * @param endPosition   子区间结束位置
+     * @return 自区间比例[0, 1]
+     */
+    private float getAreaRadio(float radio, float startPosition, float endPosition) {
+        return (radio - startPosition) / (endPosition - startPosition);
+    }
+
+    /**
+     * 取两个颜色间的渐变区间 中的某一点的颜色
+     *
+     * @param startColor 开始的颜色
+     * @param endColor   结束的颜色
+     * @param radio      比例 [0, 1]
+     * @return 选中点的颜色
+     */
+    private int getColorFrom(int startColor, int endColor, float radio) {
+        int redStart = Color.red(startColor);
+        int blueStart = Color.blue(startColor);
+        int greenStart = Color.green(startColor);
+        int redEnd = Color.red(endColor);
+        int blueEnd = Color.blue(endColor);
+        int greenEnd = Color.green(endColor);
+
+        int red = (int) (redStart + ((redEnd - redStart) * radio + 0.5));
+        int greed = (int) (greenStart + ((greenEnd - greenStart) * radio + 0.5));
+        int blue = (int) (blueStart + ((blueEnd - blueStart) * radio + 0.5));
+        return Color.argb(255, red, greed, blue);
+    }
+
 
     //--- 对外接口 ---------------------------------------------------------------------------------
 

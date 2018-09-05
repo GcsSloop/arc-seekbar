@@ -11,11 +11,12 @@
         <attr name="arc_progress" format="integer|reference" />
         <attr name="arc_thumb_width" format="dimension|reference" />
         <attr name="arc_thumb_color" format="color|reference" />
-        <attr name="arc_thumb_radius" format="integer|dimension" />
+        <attr name="arc_thumb_radius" format="dimension|reference" />
         <attr name="arc_thumb_mode" format="integer|dimension">
             <enum name="STROKE" value="0" />
             <enum name="FILL" value="1" />
             <enum name="FILL_STROKE" value="2" />
         </attr>
+        <attr name="arc_shadow_radius" format="dimension|reference" />
     </declare-styleable>
 </resources>
