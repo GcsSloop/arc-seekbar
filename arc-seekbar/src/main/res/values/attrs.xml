@@ -8,6 +8,7 @@
         <attr name="arc_border_width" format="dimension|reference" />
         <attr name="arc_border_color" format="color|reference" />
         <attr name="arc_max" format="integer|reference" />
+        <attr name="arc_min" format="integer|reference" />
         <attr name="arc_progress" format="integer|reference" />
         <attr name="arc_thumb_width" format="dimension|reference" />
         <attr name="arc_thumb_color" format="color|reference" />

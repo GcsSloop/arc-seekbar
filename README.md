@@ -53,7 +53,8 @@
 | arc_open_angle    | 圆弧开口的角度                          | 否           | int   |
 | arc_rotate_angle  | 旋转角度，默认90                        | 否           | int   |
 | arc_colors        | 圆弧渐变色                              | 否           | array |
-| arc_max           | 进度最大数值                            | 否           | int   |
+| arc_max           | 进度最大数值(允许为负数)                | 否           | int   |
+| arc_min           | 进度最小数值(允许为负数)                | 否           | int   |
 | arc_progress      | 默认进度                                | 否           | int   |
 | arc_thumb_width   | 拖动按钮描边宽度                        | 否           | dp    |
 | arc_thumb_color   | 拖动按钮颜色                            | 否           | color |
@@ -62,6 +63,7 @@
 | arc_border_width  | 描边宽度，默认为 0，即不显示。          | 否           | dp    |
 | arc_border_color  | 描边颜色，默认为白色。                  | 否           | color |
 | arc_shadow_radius | 阴影(外发光)半径，默认为0，即不显示。   | 否           | dp    |
+
 
 ### 3. 属性简介
 
@@ -105,7 +107,7 @@
 
 #### 3.3 进度属性
 
-进度属性有两个， `arc_max` 指定最大数值， `arc_progress` 指定默认的进度。
+进度属性有两个， `arc_max` 指定最大数值，`arc_min` 指定最小数值， `arc_progress` 指定默认的进度，其中所有的的数据都允许为负数。
 
 #### 3.4 拖动按钮属性
 
@@ -152,7 +154,7 @@ allprojects {
 在需要添加依赖的 Module 下添加以下信息，使用方式和普通的远程仓库一样。
 
 ```groovy
-implementation 'com.gcssloop.widget:arc-seekbar:1.3.0'
+implementation 'com.gcssloop.widget:arc-seekbar:1.4.0'
 ```
 
 ## 作者简介
@@ -164,6 +166,10 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.3.0'
 <a href="http://www.gcssloop.com/info/about/" target="_blank"> <img src="http://ww4.sinaimg.cn/large/005Xtdi2gw1f1qn89ihu3j315o0dwwjc.jpg" width="300"/> </a>
 
 ## 更新日志
+
+#### v1.4.0
+
+1. 添加设置最小值参数。
 
 #### v1.3.0
 

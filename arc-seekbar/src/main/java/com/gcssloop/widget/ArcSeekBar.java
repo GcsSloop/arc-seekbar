@@ -68,6 +68,7 @@ public class ArcSeekBar extends View {
     private static final int THUMB_MODE_FILL_STROKE = 2;            // 拖动按钮模式 - 填充+描边
 
     private static final int DEFAULT_MAX_VALUE = 100;               // 默认最大数值
+    private static final int DEFAULT_MIN_VALUE = 0;                 // 默认最小数值
 
     private static final String KEY_PROGRESS_PRESENT = "PRESENT";   // 用于存储和获取当前百分比
 
@@ -87,6 +88,7 @@ public class ArcSeekBar extends View {
     private int mShadowRadius;      // 阴影半径
 
     private int mMaxValue;          // 最大数值
+    private int mMinValue;          // 最小数值
 
     private float mCenterX;         // 圆弧 SeekBar 中心点 X
     private float mCenterY;         // 圆弧 SeekBar 中心点 Y
@@ -140,7 +142,13 @@ public class ArcSeekBar extends View {
         mOpenAngle = ta.getFloat(R.styleable.ArcSeekBar_arc_open_angle, DEFAULT_OPEN_ANGLE);
         mRotateAngle = ta.getFloat(R.styleable.ArcSeekBar_arc_rotate_angle, DEFAULT_ROTATE_ANGLE);
         mMaxValue = ta.getInt(R.styleable.ArcSeekBar_arc_max, DEFAULT_MAX_VALUE);
-        int progress = ta.getInt(R.styleable.ArcSeekBar_arc_progress, 0);
+        mMinValue = ta.getInt(R.styleable.ArcSeekBar_arc_min, DEFAULT_MIN_VALUE);
+        // 如果用户设置的最大值和最小值不合理，则直接按照默认进行处理
+        if (mMaxValue <= mMinValue) {
+            mMaxValue = DEFAULT_MAX_VALUE;
+            mMinValue = DEFAULT_MIN_VALUE;
+        }
+        int progress = ta.getInt(R.styleable.ArcSeekBar_arc_progress, mMinValue);
         setProgress(progress);
         mBorderWidth = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_border_width, dp2px(DEFAULT_BORDER_WIDTH));
         mBorderColor = ta.getColor(R.styleable.ArcSeekBar_arc_border_color, DEFAULT_BORDER_COLOR);
@@ -565,10 +573,10 @@ public class ArcSeekBar extends View {
      */
     public void setProgress(int progress) {
         System.out.println("setProgress = " + progress);
-        if (progress < 0) progress = 0;
         if (progress > mMaxValue) progress = mMaxValue;
-        mProgressPresent = progress * 1.0f / mMaxValue;
-        System.out.println("setProgress = " + mProgressPresent);
+        if (progress < mMinValue) progress = mMinValue;
+        mProgressPresent = (progress - mMinValue) * 1.0f / (mMaxValue - mMinValue);
+        System.out.println("setProgress present = " + mProgressPresent);
         if (null != mOnProgressChangeListener) {
             mOnProgressChangeListener.onProgressChanged(this, progress, false);
         }
@@ -581,7 +589,7 @@ public class ArcSeekBar extends View {
      * @return 当前进度数值
      */
     public int getProgress() {
-        return (int) (mProgressPresent * mMaxValue);
+        return (int) (mProgressPresent * (mMaxValue - mMinValue)) + mMinValue;
     }
 
     OnProgressChangeListener mOnProgressChangeListener;
