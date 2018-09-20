@@ -60,6 +60,8 @@ public class ArcSeekBar extends View {
     private static final int DEFAULT_THUMB_COLOR = 0xffffffff;      // 拖动按钮颜色
     private static final int DEFAULT_THUMB_WIDTH = 2;               // 拖动按钮描边宽度 dp
     private static final int DEFAULT_THUMB_RADIUS = 15;             // 拖动按钮半径 dp
+    private static final int DEFAULT_THUMB_SHADOW_RADIUS = 0;       // 拖动按钮阴影半径 dp
+    private static final int DEFAULT_THUMB_SHADOW_COLOR = 0xFF000000; // 拖动按钮阴影颜色
 
     private static final int DEFAULT_SHADOW_RADIUS = 0;             // 默认阴影半径 dp
 
@@ -83,6 +85,8 @@ public class ArcSeekBar extends View {
     private int mThumbColor;        // 拖动按钮颜色
     private float mThumbWidth;      // 拖动按钮宽度
     private float mThumbRadius;     // 拖动按钮半径
+    private float mThumbShadowRadius;// 拖动按钮阴影半径
+    private int mThumbShadowColor;// 拖动按钮阴影颜色
     private int mThumbMode;         // 拖动按钮模式
 
     private int mShadowRadius;      // 阴影半径
@@ -155,6 +159,8 @@ public class ArcSeekBar extends View {
 
         mThumbColor = ta.getColor(R.styleable.ArcSeekBar_arc_thumb_color, DEFAULT_THUMB_COLOR);
         mThumbRadius = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_thumb_radius, dp2px(DEFAULT_THUMB_RADIUS));
+        mThumbShadowRadius = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_thumb_shadow_radius, dp2px(DEFAULT_THUMB_SHADOW_RADIUS));
+        mThumbShadowColor = ta.getColor(R.styleable.ArcSeekBar_arc_thumb_shadow_color, DEFAULT_THUMB_SHADOW_COLOR);
         mThumbWidth = ta.getDimensionPixelSize(R.styleable.ArcSeekBar_arc_thumb_width, dp2px(DEFAULT_THUMB_WIDTH));
         mThumbMode = ta.getInt(R.styleable.ArcSeekBar_arc_thumb_mode, THUMB_MODE_STROKE);
 
@@ -353,6 +359,11 @@ public class ArcSeekBar extends View {
         canvas.drawPath(mSeekPath, mArcPaint);
         if (mBorderWidth > 0) {
             canvas.drawPath(mBorderPath, mBorderPaint);
+        }
+        if (mThumbShadowRadius > 0) {
+            mThumbPaint.setShadowLayer(mThumbShadowRadius, 0, 0, mThumbShadowColor);
+            canvas.drawCircle(mThumbX, mThumbY, mThumbRadius, mThumbPaint);
+            mThumbPaint.clearShadowLayer();
         }
         canvas.drawCircle(mThumbX, mThumbY, mThumbRadius, mThumbPaint);
         canvas.restore();

@@ -13,6 +13,8 @@
         <attr name="arc_thumb_width" format="dimension|reference" />
         <attr name="arc_thumb_color" format="color|reference" />
         <attr name="arc_thumb_radius" format="dimension|reference" />
+        <attr name="arc_thumb_shadow_radius" format="dimension|reference" />
+        <attr name="arc_thumb_shadow_color" format="color|reference" />
         <attr name="arc_thumb_mode" format="integer|dimension">
             <enum name="STROKE" value="0" />
             <enum name="FILL" value="1" />

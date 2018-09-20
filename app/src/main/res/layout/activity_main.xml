@@ -56,6 +56,8 @@
             app:arc_thumb_color="#fff"
             app:arc_thumb_mode="STROKE"
             app:arc_thumb_radius="16dp"
+            app:arc_thumb_shadow_radius="3dp"
+            app:arc_thumb_shadow_color="#000000"
             app:arc_thumb_width="3dp"
             app:arc_width="40dp" />
     </FrameLayout>
