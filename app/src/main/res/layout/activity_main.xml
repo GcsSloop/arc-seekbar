@@ -56,8 +56,8 @@
             app:arc_thumb_color="#fff"
             app:arc_thumb_mode="STROKE"
             app:arc_thumb_radius="16dp"
-            app:arc_thumb_shadow_radius="3dp"
             app:arc_thumb_shadow_color="#000000"
+            app:arc_thumb_shadow_radius="3dp"
             app:arc_thumb_width="3dp"
             app:arc_width="40dp" />
     </FrameLayout>
@@ -77,5 +77,21 @@
         app:layout_constraintRight_toRightOf="@id/arc_seek_bar_wrap"
         app:layout_constraintTop_toTopOf="@id/arc_seek_bar_wrap" />
 
+
+    <Button
+        android:id="@+id/btn_0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置 0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_90"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置 90"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.gcssloop.arcseekbartest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.gcssloop.widget.ArcSeekBar;
@@ -33,6 +34,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(ArcSeekBar seekBar) {
                 setEngry(seekBar.getProgress());
+            }
+        });
+
+        findViewById(R.id.btn_0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mArcSeekBar.setProgress(0);
+            }
+        });
+
+        findViewById(R.id.btn_90).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mArcSeekBar.setProgress(90);
             }
         });
     }

@@ -158,7 +158,7 @@ allprojects {
 在需要添加依赖的 Module 下添加以下信息，使用方式和普通的远程仓库一样。
 
 ```groovy
-implementation 'com.gcssloop.widget:arc-seekbar:1.5.0'
+implementation 'com.gcssloop.widget:arc-seekbar:1.5.1'
 ```
 
 ## 作者简介
@@ -170,6 +170,10 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.5.0'
 <a href="http://www.gcssloop.com/info/about/" target="_blank"> <img src="http://ww4.sinaimg.cn/large/005Xtdi2gw1f1qn89ihu3j315o0dwwjc.jpg" width="300"/> </a>
 
 ## 更新日志
+
+#### v1.5.1
+
+1. 修复设置进度时拖动按钮位置未刷新的问题。
 
 #### v1.5.0
 

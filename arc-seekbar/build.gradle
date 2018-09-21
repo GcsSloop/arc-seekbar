@@ -29,7 +29,7 @@ dependencies {
 ext {
     GROUP_ID = "com.gcssloop.widget"
     ARTIFACT_ID = "arc-seekbar"
-    VERSION = "1.5.0"
+    VERSION = "1.5.1"
 }
 
 // 上传脚本，加入了自动配置策略

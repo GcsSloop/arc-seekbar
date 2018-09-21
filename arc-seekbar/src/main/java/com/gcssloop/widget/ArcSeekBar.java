@@ -492,10 +492,11 @@ public class ArcSeekBar extends View {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getContext().getResources().getDisplayMetrics());
     }
 
-    // 计算拖动快应该显示的位置
+    // 计算拖动块应该显示的位置
     private void computeThumbPos(float present) {
         if (present < 0) present = 0;
         if (present > 1) present = 1;
+        if (null == mSeekPathMeasure) return;
         float distance = mSeekPathMeasure.getLength() * present;
         mSeekPathMeasure.getPosTan(distance, mTempPos, mTempTan);
         mThumbX = mTempPos[0];
@@ -591,6 +592,7 @@ public class ArcSeekBar extends View {
         if (null != mOnProgressChangeListener) {
             mOnProgressChangeListener.onProgressChanged(this, progress, false);
         }
+        computeThumbPos(mProgressPresent);
         postInvalidate();
     }
 
