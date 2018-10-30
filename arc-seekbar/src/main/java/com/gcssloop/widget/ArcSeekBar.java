@@ -175,6 +175,13 @@ public class ArcSeekBar extends View {
         if (0 == resId) {
             resId = R.array.arc_colors_default;
         }
+        ret = getColorsByArrayResId(context, resId);
+        return ret;
+    }
+
+    // 根据 resId 获取颜色数组
+    private int[] getColorsByArrayResId(Context context, int resId) {
+        int[] ret;
         TypedArray colorArray = context.getResources().obtainTypedArray(resId);
         ret = new int[colorArray.length()];
         for (int i = 0; i < colorArray.length(); i++) {
@@ -329,6 +336,18 @@ public class ArcSeekBar extends View {
         mSeekPathMeasure.setPath(mSeekPath, false);
         computeThumbPos(mProgressPresent);
 
+        resetShaderColor();
+
+        mInvertMatrix.reset();
+        mInvertMatrix.preRotate(-mRotateAngle, mCenterX, mCenterY);
+
+        mArcPaint.getFillPath(mSeekPath, mBorderPath);
+        mBorderPath.close();
+        mArcRegion.setPath(mBorderPath, new Region(0, 0, w, h));
+    }
+
+    // 重置 shader 颜色
+    private void resetShaderColor() {
         // 计算渐变数组
         float startPos = (mOpenAngle / 2) / CIRCLE_ANGLE;
         float stopPos = (CIRCLE_ANGLE - (mOpenAngle / 2)) / CIRCLE_ANGLE;
@@ -338,15 +357,8 @@ public class ArcSeekBar extends View {
         for (int i = 0; i < mArcColors.length; i++) {
             pos[i] = startPos + (distance * i);
         }
-        SweepGradient gradient = new SweepGradient(content.centerX(), content.centerY(), mArcColors, pos);
+        SweepGradient gradient = new SweepGradient(mCenterX, mCenterY, mArcColors, pos);
         mArcPaint.setShader(gradient);
-
-        mInvertMatrix.reset();
-        mInvertMatrix.preRotate(-mRotateAngle, mCenterX, mCenterY);
-
-        mArcPaint.getFillPath(mSeekPath, mBorderPath);
-        mBorderPath.close();
-        mArcRegion.setPath(mBorderPath, new Region(0, 0, w, h));
     }
 
     // 具体绘制
@@ -576,7 +588,7 @@ public class ArcSeekBar extends View {
     }
 
 
-    //--- 对外接口 ---------------------------------------------------------------------------------
+    //region 对外接口 -------------------------------------------------------------------------------
 
     /**
      * 设置进度
@@ -605,7 +617,30 @@ public class ArcSeekBar extends View {
         return (int) (mProgressPresent * (mMaxValue - mMinValue)) + mMinValue;
     }
 
-    OnProgressChangeListener mOnProgressChangeListener;
+    /**
+     * 设置颜色
+     *
+     * @param colors 颜色
+     */
+    public void setArcColors(int[] colors) {
+        mArcColors = colors;
+        resetShaderColor();
+        postInvalidate();
+    }
+
+    /**
+     * 设置颜色
+     *
+     * @param colorArrayRes 颜色资源 R.array.arc_color
+     */
+    public void setArcColors(int colorArrayRes) {
+        setArcColors(getColorsByArrayResId(getContext(), colorArrayRes));
+    }
+
+    // endregion -----------------------------------------------------------------------------------
+    // region 状态回调 ------------------------------------------------------------------------------
+
+    private OnProgressChangeListener mOnProgressChangeListener;
 
     public void setOnProgressChangeListener(OnProgressChangeListener onProgressChangeListener) {
         mOnProgressChangeListener = onProgressChangeListener;
@@ -635,4 +670,5 @@ public class ArcSeekBar extends View {
          */
         void onStopTrackingTouch(ArcSeekBar seekBar);
     }
+    // endregion -----------------------------------------------------------------------------------
 }

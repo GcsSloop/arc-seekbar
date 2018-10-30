@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <array name="arc_colors_custom">
+        <item>#DE7867</item>
+        <item>#4B9EF7</item>
+        <item>#262626</item>
+    </array>
 </resources>

@@ -135,11 +135,57 @@ v1.1.0 以上版本支持。
 
 ![](pics/arcseekbar-shadow.gif)
 
+### 4. 使用方法
 
+#### 4.1 基本使用
 
-### 4.添加方法
+```java
+ArcSeekBar mArcSeekBar = findViewById(R.id.arc_seek_bar);
+mArcSeekBar.setOnProgressChangeListener(new ArcSeekBar.OnProgressChangeListener() {
+    @Override
+    public void onProgressChanged(ArcSeekBar seekBar, int progress, boolean isUser) {}
 
-#### 4.1 添加仓库
+    @Override
+    public void onStartTrackingTouch(ArcSeekBar seekBar) {}
+
+    @Override
+    public void onStopTrackingTouch(ArcSeekBar seekBar) {}
+});
+```
+
+#### 4.2 动态设置渐变色
+
+##### 4.2.1 自定义颜色数组
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="arc_colors_custom">
+        <item>#DE7867</item>
+        <item>#4B9EF7</item>
+        <item>#262626</item>
+    </array>
+</resources>
+```
+
+##### 4.2.2 使用资源数组
+
+```java
+mArcSeekBar.setArcColors(R.array.arc_colors_custom);
+```
+
+##### 4.2.3 使用直接定义的颜色数组
+
+```java
+int[] colors = {0xFFFF0000, 0xFF00FF00, 0xFF0000FF};
+mArcSeekBar.setArcColors(colors);
+```
+
+> **注意：一定要带上最前面的 FF，表示透明度为 1.0**
+
+### 5.添加方法
+
+#### 5.1 添加仓库
 
 在项目的 `build.gradle` 文件中配置仓库地址。
 
@@ -153,12 +199,12 @@ allprojects {
 }
 ```
 
-#### 4.2 添加项目依赖
+#### 5.2 添加项目依赖
 
 在需要添加依赖的 Module 下添加以下信息，使用方式和普通的远程仓库一样。
 
 ```groovy
-implementation 'com.gcssloop.widget:arc-seekbar:1.5.1'
+implementation 'com.gcssloop.widget:arc-seekbar:1.6.0'
 ```
 
 ## 作者简介
@@ -170,6 +216,10 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.5.1'
 <a href="http://www.gcssloop.com/info/about/" target="_blank"> <img src="http://ww4.sinaimg.cn/large/005Xtdi2gw1f1qn89ihu3j315o0dwwjc.jpg" width="300"/> </a>
 
 ## 更新日志
+
+#### v1.6.0
+
+1. 提供通过 Java 代码动态设置渐变颜色的接口。
 
 #### v1.5.1
 
