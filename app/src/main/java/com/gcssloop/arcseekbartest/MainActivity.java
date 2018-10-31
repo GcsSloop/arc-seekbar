@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
         mArcSeekBar = findViewById(R.id.arc_seek_bar);
         mArcSeekBar.setArcColors(R.array.arc_colors_custom);
 
-
+        mArcSeekBar.setMaxValue(200);
+        mArcSeekBar.setMinValue(50);
 
         setEngry(mArcSeekBar.getProgress());
 

@@ -183,6 +183,13 @@ mArcSeekBar.setArcColors(colors);
 
 > **注意：一定要带上最前面的 FF，表示透明度为 1.0**
 
+#### 4.5 设置最大值和最小值
+
+```java
+mArcSeekBar.setMaxValue(200);
+mArcSeekBar.setMinValue(50);
+```
+
 ### 5.添加方法
 
 #### 5.1 添加仓库
@@ -204,7 +211,7 @@ allprojects {
 在需要添加依赖的 Module 下添加以下信息，使用方式和普通的远程仓库一样。
 
 ```groovy
-implementation 'com.gcssloop.widget:arc-seekbar:1.6.0'
+implementation 'com.gcssloop.widget:arc-seekbar:1.7.0'
 ```
 
 ## 作者简介
@@ -216,6 +223,10 @@ implementation 'com.gcssloop.widget:arc-seekbar:1.6.0'
 <a href="http://www.gcssloop.com/info/about/" target="_blank"> <img src="http://ww4.sinaimg.cn/large/005Xtdi2gw1f1qn89ihu3j315o0dwwjc.jpg" width="300"/> </a>
 
 ## 更新日志
+
+#### v1.7.0
+
+1. 提供代码设置最大值和最小值的方法。
 
 #### v1.6.0
 

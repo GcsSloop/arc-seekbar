@@ -629,6 +629,22 @@ public class ArcSeekBar extends View {
     }
 
     /**
+     * 设置最大数值
+     * @param max 最大数值
+     */
+    public void setMaxValue(int max) {
+        mMaxValue = max;
+    }
+
+    /**
+     * 设置最小数值
+     * @param min 最小数值
+     */
+    public void setMinValue(int min) {
+        mMinValue = min;
+    }
+
+    /**
      * 设置颜色
      *
      * @param colorArrayRes 颜色资源 R.array.arc_color
